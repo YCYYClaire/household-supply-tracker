@@ -6,8 +6,7 @@ import {
     signOut,
     updateProfile
 } from 'firebase/auth';
-import { auth, storage } from '../firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth } from '../firebase';
 
 const AuthContext = createContext();
 
@@ -48,22 +47,12 @@ export const AuthProvider = ({ children }) => {
         setUser({ ...auth.currentUser, displayName, photoURL });
     };
 
-    const uploadAvatar = async (file) => {
-        if (!auth.currentUser || !file) return null;
-        const storageRef = ref(storage, `avatars/${auth.currentUser.uid}`);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        await updateProfileInfo(auth.currentUser.displayName, url);
-        return url;
-    };
-
     const value = {
         user,
         signup,
         login,
         logout,
         updateProfileInfo,
-        uploadAvatar,
         loading
     };
 

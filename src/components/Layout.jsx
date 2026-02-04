@@ -100,9 +100,11 @@ const Layout = ({ children, currentView, onNavigate }) => {
                                     overflow: 'hidden',
                                     border: '2px solid #fff'
                                 }}>
-                                    {user.photoURL ? (
+                                    {user.photoURL && user.photoURL.length > 2 ? (
                                         <img src={user.photoURL} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    ) : '👤'}
+                                    ) : (
+                                        <span>{user.photoURL || '👤'}</span>
+                                    )}
                                 </div>
                                 <div style={{ overflow: 'hidden' }}>
                                     <div style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{user.displayName || 'Owner'}</div>
