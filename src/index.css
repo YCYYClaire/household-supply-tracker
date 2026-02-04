@@ -1,51 +1,856 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap');
 
 :root {
+  /* Dynamic Color Palette - Cute Teal & Earth Theme */
   --bg-body: #f0fdfa;
+  /* Teal 50 */
   --bg-surface: #ffffff;
+
+  /* Mint/Teal Accents */
   --primary: #14b8a6;
+  /* Teal 500 */
   --primary-hover: #0d9488;
+  /* Teal 600 */
+
   --accent: #d4a373;
+  /* Soft Brown/Tan */
   --success: #66bb6a;
+  /* Green */
   --warning: #f9a825;
+  /* Amber */
   --danger: #ef5350;
+  /* Red */
+
+  /* Earthy Text */
   --text-main: #4e342e;
+  /* Dark Brown */
   --text-muted: #8d6e63;
+  /* Light Brown */
   --border: #f0e6e6;
+  /* Soft pink-ish grey */
+
   --shadow-sm: 0 2px 4px rgba(20, 184, 166, 0.1);
   --shadow-md: 0 4px 12px rgba(20, 184, 166, 0.15);
   --shadow-lg: 0 10px 15px -3px rgba(78, 52, 46, 0.05), 0 4px 6px -4px rgba(78, 52, 46, 0.05);
+
+  /* Extra Rounded & Softer */
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
+
   --font-family: 'Quicksand', 'Outfit', sans-serif;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); background-color: var(--bg-body); background-image: radial-gradient(rgba(20, 184, 166, 0.15) 2px, transparent 2px); background-size: 24px 24px; color: var(--text-main); line-height: 1.6; font-size: 18px; font-weight: 700; }
-h1, h2, h3, h4, h5, h6 { font-weight: 600; color: var(--text-main); }
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: 0.5rem; }
-.gap-4 { gap: 1rem; }
-.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-.btn-primary { background-color: var(--primary); color: #fff; box-shadow: 0 5px 0 var(--primary-hover); margin-bottom: 5px; }
-.btn-primary:active { box-shadow: 0 0 0 var(--primary-hover); transform: translateY(5px); }
-.sidebar-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); width: 100%; min-height: 50px; background-color: var(--accent); color: #fff; box-shadow: 0 4px 0 #a07855; border: 2px solid var(--text-main); font-weight: 700; cursor: pointer; transition: all 0.1s; margin-bottom: 1rem; }
-.sidebar-btn.active { background-color: var(--primary); box-shadow: 0 0 0 transparent; transform: translateY(4px); }
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-body);
+  /* Polka Dot Pattern */
+  background-image: radial-gradient(rgba(20, 184, 166, 0.15) 2px, transparent 2px);
+  background-size: 24px 24px;
 
-.inventory-view-container { display: flex; flex-direction: column; gap: 4rem; width: 100%; background-color: #fafafa; }
-.shelf-section { display: flex; flex-direction: column; }
-.shelf-category-title { color: #fff; background-color: var(--primary); display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 700; border-radius: 100px 100px 0 0; align-self: flex-start; margin-left: 2rem; position: relative; z-index: 5; top: 6px; padding: 0.3rem 1.25rem; }
-.shelf { display: flex; align-items: center; padding: 1.5rem 2rem; background: linear-gradient(to bottom, #a1887f 0%, #8d6e63 100%); border-top: 6px solid #bcaaa4; box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.4); min-height: 300px; }
-.shelf-items-grid { display: flex; align-items: center; gap: 1.5rem; width: 100%; overflow-x: auto; padding: 2rem 3rem; }
-.shelf-item-card { background: #fff; border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center; min-width: 140px; height: 240px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-.item-icon-display { font-size: 3rem; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
-.qty-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border); background: #fff; cursor: pointer; }
+  color: var(--text-main);
+  line-height: 1.6;
+  /* Slightly more breathing room */
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 
-input, .input-field { font-family: var(--font-family); font-weight: 700; border: 2px solid var(--border); border-radius: var(--radius-md); padding: 0.75rem 1rem; width: 100%; }
-input:focus { border-color: var(--primary); transform: translateY(-1px); }
+  /* Cuter Typography Settings */
+  font-size: 18px;
+  /* Larger base size */
+  font-weight: 700;
+  /* Maximum BOLD for super cute/chunky look */
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-main);
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-warning {
+  color: var(--warning);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Component Specific Hovers & Focus */
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:hover {
+  background-color: #334155 !important;
+}
+
+/* Slate 700 */
+.btn-danger:hover {
+  background-color: #dc2626 !important;
+}
+
+/* Red 600 */
+.btn-ghost:hover {
+  background-color: rgba(78, 52, 46, 0.05) !important;
+  color: var(--text-main) !important;
+}
+
+.input-field:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column !important;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem !important;
+  }
+
+  .sidebar nav {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .sidebar nav>div {
+    margin-bottom: 0 !important;
+    padding: 0.5rem !important;
+  }
+
+  .sidebar nav>div>span {
+    display: none;
+    /* Hide labels */
+  }
+
+  main {
+    padding: 1rem !important;
+  }
+}
+
+/* 3D Cute Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+  /* 3D Bottom Border/Shadow */
+  box-shadow: 0 5px 0 var(--primary-hover);
+  margin-bottom: 5px;
+  /* Account for the shadow push */
+}
+
+.btn-primary:active {
+  box-shadow: 0 0 0 var(--primary-hover);
+  transform: translateY(5px);
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: var(--text-main);
+  border: 2px solid var(--border) !important;
+  box-shadow: 0 5px 0 var(--border);
+  margin-bottom: 5px;
+}
+
+.btn-secondary:active {
+  box-shadow: 0 0 0 var(--border);
+  transform: translateY(5px);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #fff;
+  box-shadow: 0 5px 0 #c62828;
+  /* Darker red */
+  margin-bottom: 5px;
+}
+
+.btn-danger:active {
+  box-shadow: 0 0 0 #c62828;
+  transform: translateY(5px);
+}
+
+/* Update ghost to just be simple hover, no 3D needed or maybe subtle */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-muted);
+}
+
+.btn-ghost:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar 3D Buttons */
+/* Sidebar 3D Buttons */
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  width: 100%;
+  /* Ensure full width */
+  min-height: 50px;
+  /* Fixed minimum height for consistency */
+
+  /* Unselected State: Brown & Raised */
+  background-color: var(--accent);
+  /* Light Brown */
+  color: #fff;
+  box-shadow: 0 4px 0 #a07855;
+  /* Darker brown shadow */
+  border: 2px solid var(--text-main);
+  /* Pop against dark background */
+
+  cursor: pointer;
+  transition: all 0.1s;
+  margin-bottom: 1rem;
+  /* Space + Shadow gap */
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.sidebar-btn:hover {
+  background-color: #e6b88a;
+  /* Lighter brown hover */
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 #a07855;
+}
+
+.sidebar-btn.active {
+  /* Selected State: Teal & Pressed */
+  background-color: var(--primary);
+  color: #fff;
+  border-color: #0f766e;
+  /* Darker teal border */
+  box-shadow: 0 0 0 transparent;
+  /* No shadow = Pressed flat */
+  transform: translateY(4px);
+  /* Physically move down */
+}
+
+/* Override hover for active state to keep it pressed */
+.sidebar-btn.active:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.sidebar-btn:active {
+  /* Clicking an unselected button presses it */
+  transform: translateY(4px);
+  box-shadow: 0 0 0 transparent;
+}
+
+/* Stat Card 3D Buttons */
+.stat-card-btn {
+  /* Brown 3D Look (Same as Unselected Sidebar) */
+  background-color: var(--text-main) !important;
+  color: #fff;
+  border: 2px solid var(--text-main) !important;
+  /* Ensure boundary */
+  box-shadow: 0 6px 0 #3e2723 !important;
+  /* Deep brown shadow */
+
+  cursor: pointer;
+  transition: all 0.1s !important;
+  margin-bottom: 6px;
+  /* Space for shadow */
+  transform: translateY(0);
+}
+
+.stat-card-btn:hover {
+  background-color: #5d4037 !important;
+  /* Slightly lighter brown */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #3e2723 !important;
+}
+
+.stat-card-btn:active {
+  box-shadow: 0 0 0 transparent !important;
+}
+
+/* Inventory Page Full View - Supermarket Aisle */
+.inventory-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  /* Increased spacing to prevent overlap */
+  padding: 0;
+  /* Full edge-to-edge */
+  min-height: 100%;
+  /* Fill the screen */
+  flex: 1;
+  /* Grow to fill main */
+  width: 100%;
+
+  /* Aisle Background Effect - Subtle vertical stripes */
+  background-image: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.04) 50%,
+      transparent 50%);
+  background-size: 60px 100%;
+  /* Wider stripes for grandeur */
+  background-color: #fafafa;
+  /* Bright/Clean base */
+}
+
+/* Shelf Section Container */
+.shelf-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Section Title (floating tab) */
+.shelf-category-title {
+  margin-bottom: 0px;
+  padding: 0.3rem 1.25rem;
+  color: #fff;
+  background-color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  /* Even smaller to avoid overlap */
+  font-weight: 700;
+  border-radius: 100px 100px 0 0;
+  /* Fully rounded top for "cute" look */
+  align-self: flex-start;
+  margin-left: 2rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 5;
+  top: 6px;
+  /* Tuck it into the shelf border more tightly */
+}
+
+/* Grid container for shelves - 4 per row */
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+.shelf {
+  display: flex;
+  align-items: center;
+  /* Center items vertically */
+  overflow-x: visible;
+  padding: 1.5rem 2rem;
+
+  /* Realistic Wood Shelf Look */
+  background:
+    /* Top Highlight */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 5px),
+    /* Wood Gradient */
+    linear-gradient(to bottom, #a1887f 0%, #8d6e63 100%);
+
+  border-top: 6px solid #bcaaa4;
+  border-radius: 0;
+  width: 100%;
+  margin: 0;
+
+  box-shadow:
+    0 15px 20px -5px rgba(0, 0, 0, 0.4),
+    inset 0 10px 20px rgba(0, 0, 0, 0.2);
+
+  position: relative;
+  min-height: 300px;
+  /* Increased to accommodate grid padding and scale */
+  height: 300px;
+}
+
+/* Horizontal scrolling for shelf items */
+.shelf-items-grid {
+  display: flex;
+  align-items: center;
+  /* Vertically center all items */
+  gap: 1.5rem;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  /* Allow hover scale to show */
+  padding: 2rem 3rem;
+  /* Extra room for scale/float */
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+.shelf-items-grid::-webkit-scrollbar {
+  height: 6px;
+  /* Thinner and more delicate */
+  margin-bottom: 15px;
+  /* Push it away from the bottom edge slightly */
+}
+
+.shelf-items-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  /* Very subtle track */
+  border-radius: 100px;
+  margin: 0 4rem;
+  /* Don't let it touch the edges */
+}
+
+.shelf-items-grid::-webkit-scrollbar-thumb {
+  background: #6d4c41;
+  /* Warm deep brown */
+  border-radius: 100px;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  /* 3D effect */
+}
+
+.shelf-items-grid::-webkit-scrollbar-thumb:hover {
+  background: #5d4037;
+  /* Even richer brown */
+}
+
+/* Shelf items sit "on" the shelf */
+.shelf-item-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+  gap: 0.5rem;
+
+  /* Fixed dimensions for consistency */
+  min-width: 140px;
+  max-width: 140px;
+  height: 240px;
+  /* Increased height to accommodate all content */
+  flex-shrink: 0;
+  /* Prevent shrinking in flex container */
+}
+
+/* Content wrapper for scrollable middle section */
+.shelf-item-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 0.5rem;
+  /* Subtle scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.shelf-item-card-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.shelf-item-card-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.shelf-item-card:hover {
+  transform: scale(1.05);
+  z-index: 20;
+  border-color: var(--primary);
+  box-shadow: 0 12px 20px rgba(20, 184, 166, 0.2);
+}
+
+.item-icon-display {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.1));
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.item-name-display {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.bounce-icon {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Quantity Row */
+.item-qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: var(--bg-body);
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.qty-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s;
+  padding: 0;
+}
+
+.qty-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.qty-btn:active {
+  transform: scale(0.9);
+}
+
+.qty-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.qty-unit {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+/* Action Buttons (Edit/Delete) */
+.item-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0.3;
+  /* Subtle until hover */
+  transition: opacity 0.2s;
+}
+
+.shelf-item-card:hover .item-actions {
+  opacity: 1;
+}
+
+.action-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #a1887f;
+  /* Light brown default */
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon-btn:hover {
+  background: #efebe9;
+  /* Very light brown bg */
+  transform: scale(1.1);
+}
+
+.action-icon-btn.edit:hover {
+  color: var(--primary);
+}
+
+.action-icon-btn.delete:hover {
+  color: var(--danger);
+  background: #fee2e2;
+}
+
+
+/* Price/Label Tag style for content inside card */
+.shelf-item-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.shelf-item-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Storefront Dashboard Theme */
+.storefront-header {
+  background-color: var(--accent);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid #fff;
+}
+
+/* Striped Awning */
+.store-awning {
+  height: 60px;
+  background: repeating-linear-gradient(45deg,
+      var(--primary),
+      var(--primary) 20px,
+      #fff 20px,
+      #fff 40px);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Wavy edge for awning (using pseudo elements circles) */
+.store-awning::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: radial-gradient(circle, var(--primary) 10px, transparent 11px);
+  background-size: 30px 40px;
+  background-position: 0 -20px;
+  /* shift to make scallops */
+}
+
+/* Sign/Message Board */
+.store-sign {
+  padding: 2.5rem 2rem;
+  background: var(--primary);
+  /* Fallback */
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-hover) 100%);
+  text-align: center;
+  color: white;
+}
+
+/* Shop Window (Stats Container) */
+.shop-window-display {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  border: 8px solid #8d6e63;
+  /* Wood frame */
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), var(--shadow-lg);
+  position: relative;
+}
+
+/* Window Glass Reflection Effect */
+.shop-window-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+}
+
+/* ensure cards fit nicely in window */
+.shop-window-display>* {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Scrollbar for shelf */
+.shelf::-webkit-scrollbar {
+  height: 10px;
+}
+
+.shelf::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 0 20px;
+}
+
+/* Unified Cute Input Styles */
+input,
+select,
+textarea,
+.input-field {
+  font-family: var(--font-family);
+  font-weight: 700;
+  /* Bold text for inputs */
+  font-size: 1rem;
+  color: var(--text-main);
+  background-color: #fff;
+  border: 2px solid var(--border);
+  /* Thicker border */
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15);
+  /* Soft focus ring */
+  transform: translateY(-1px);
+}
+
+label {
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0.5rem !important;
+  display: block;
+  font-size: 0.95rem;
+}
+
+/* Fix specific overrides */
+.form-group {
+  margin-bottom: 1.5rem;
+}
