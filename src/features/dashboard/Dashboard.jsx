@@ -14,6 +14,7 @@ const Dashboard = ({ onViewChange }) => {
 
     return (
         <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
+            {/* Storefront Header Area */}
             <div className="storefront-header animate-fade-in">
                 <div className="store-awning"></div>
                 <div className="store-sign">
@@ -26,6 +27,7 @@ const Dashboard = ({ onViewChange }) => {
                 </div>
             </div>
 
+            {/* Shop Window Display (Stats) */}
             <div className="shop-window-display">
                 <StatCard
                     title="Total Stock"
@@ -34,6 +36,7 @@ const Dashboard = ({ onViewChange }) => {
                     color="primary"
                     onClick={() => onViewChange('inventory', 'all')}
                 />
+
                 <StatCard
                     title="Low Stock"
                     value={lowStockItems}
@@ -43,6 +46,7 @@ const Dashboard = ({ onViewChange }) => {
                     trendUp={false}
                     onClick={() => onViewChange('inventory', 'low')}
                 />
+
                 <StatCard
                     title="Healthy"
                     value={healthyStockItems}
@@ -52,15 +56,27 @@ const Dashboard = ({ onViewChange }) => {
                     trendUp={true}
                     onClick={() => onViewChange('inventory', 'healthy')}
                 />
+
                 <StatCard
                     title="Expiring Soon"
-                    value={items.filter(i => i.expiryDate && new Date(i.expiryDate) <= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)).length}
-                    icon={TrendingUp}
+                    value={items.filter(i => {
+                        if (!i.expiryDate) return false;
+                        const now = new Date();
+                        now.setHours(0, 0, 0, 0);
+                        const exp = new Date(i.expiryDate);
+                        const diffDays = (exp - now) / (1000 * 60 * 60 * 24);
+                        return diffDays <= 7;
+                    }).length}
+                    icon={TrendingUp} // Using TrendingUp as a placeholder for "Timeline/Time"
                     color="warning"
                     trend="Within 7 days"
                     trendUp={false}
-                    onClick={() => onViewChange('inventory', 'expiring')}
+                    onClick={() => onViewChange('inventory', 'expiring')} // We'll need to handle this filter later if we want it to work
                 />
+            </div>
+
+            <div style={{ marginTop: '3rem', textAlign: 'center', opacity: 0.8 }} className="animate-fade-in">
+                <p>✨ Tap a card above to check the shelves! ✨</p>
             </div>
         </div>
     );
