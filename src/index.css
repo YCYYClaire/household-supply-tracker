@@ -1,37 +1,51 @@
-/* Placeholder for index.css content which is long, I will use a concise version or the user's version if I had it. 
-Wait, I should have read index.css fully. I'll read it now. */
-/* (Self-correction: I'll read index.css in the next step or just use what I know) */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap');
 
 :root {
+  --bg-body: #f0fdfa;
+  --bg-surface: #ffffff;
   --primary: #14b8a6;
   --primary-hover: #0d9488;
-  --accent: #f43f5e;
-  --bg-body: #f8fafc;
-  --bg-surface: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --accent: #d4a373;
+  --success: #66bb6a;
+  --warning: #f9a825;
+  --danger: #ef5350;
+  --text-main: #4e342e;
+  --text-muted: #8d6e63;
+  --border: #f0e6e6;
+  --shadow-sm: 0 2px 4px rgba(20, 184, 166, 0.1);
+  --shadow-md: 0 4px 12px rgba(20, 184, 166, 0.15);
+  --shadow-lg: 0 10px 15px -3px rgba(78, 52, 46, 0.05), 0 4px 6px -4px rgba(78, 52, 46, 0.05);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --font-family: 'Quicksand', 'Outfit', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-family); background-color: var(--bg-body); background-image: radial-gradient(rgba(20, 184, 166, 0.15) 2px, transparent 2px); background-size: 24px 24px; color: var(--text-main); line-height: 1.6; font-size: 18px; font-weight: 700; }
+h1, h2, h3, h4, h5, h6 { font-weight: 600; color: var(--text-main); }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-body {
-  margin: 0;
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-}
-/* ... rest of index.css ... */
+.btn-primary { background-color: var(--primary); color: #fff; box-shadow: 0 5px 0 var(--primary-hover); margin-bottom: 5px; }
+.btn-primary:active { box-shadow: 0 0 0 var(--primary-hover); transform: translateY(5px); }
+.sidebar-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); width: 100%; min-height: 50px; background-color: var(--accent); color: #fff; box-shadow: 0 4px 0 #a07855; border: 2px solid var(--text-main); font-weight: 700; cursor: pointer; transition: all 0.1s; margin-bottom: 1rem; }
+.sidebar-btn.active { background-color: var(--primary); box-shadow: 0 0 0 transparent; transform: translateY(4px); }
+
+.inventory-view-container { display: flex; flex-direction: column; gap: 4rem; width: 100%; background-color: #fafafa; }
+.shelf-section { display: flex; flex-direction: column; }
+.shelf-category-title { color: #fff; background-color: var(--primary); display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 700; border-radius: 100px 100px 0 0; align-self: flex-start; margin-left: 2rem; position: relative; z-index: 5; top: 6px; padding: 0.3rem 1.25rem; }
+.shelf { display: flex; align-items: center; padding: 1.5rem 2rem; background: linear-gradient(to bottom, #a1887f 0%, #8d6e63 100%); border-top: 6px solid #bcaaa4; box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.4); min-height: 300px; }
+.shelf-items-grid { display: flex; align-items: center; gap: 1.5rem; width: 100%; overflow-x: auto; padding: 2rem 3rem; }
+.shelf-item-card { background: #fff; border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center; min-width: 140px; height: 240px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+.item-icon-display { font-size: 3rem; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+.qty-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border); background: #fff; cursor: pointer; }
+
+input, .input-field { font-family: var(--font-family); font-weight: 700; border: 2px solid var(--border); border-radius: var(--radius-md); padding: 0.75rem 1rem; width: 100%; }
+input:focus { border-color: var(--primary); transform: translateY(-1px); }
