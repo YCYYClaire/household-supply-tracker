@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { signup, login, auth } from '../firebase';
-import { updateProfile } from 'firebase/auth';
 import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
-import { LogIn, UserPlus, AlertCircle, Loader2 } from 'lucide-react';
+import { LogIn, UserPlus, AlertCircle } from 'lucide-react';
 
 const AVATAR_EMOJIS = ['👤', '🐱', '🐶', '🦊', '🦁', '🐷', '🐨', '🐸', '🍎', '🍓', '🥕', '🍦', '🍩', '🍕', '🌮', '🎈'];
 
 const AuthModal = ({ isOpen, onClose }) => {
-    const { signup, login } = useAuth();
-    const [isSignup, setIsSignup] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [selectedEmoji, setSelectedEmoji] = useState('👤');
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { login, signup, updateProfileInfo } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,22 +23,20 @@ const AuthModal = ({ isOpen, onClose }) => {
         setLoading(true);
 
         try {
-            if (isSignup) {
-                await signup(email, password, displayName);
-                // After signup, we need to update the photoURL as well
-                if (auth.currentUser) {
-                    await updateProfile(auth.currentUser, { photoURL: selectedEmoji });
-                }
-            } else {
+            if (isLogin) {
                 await login(email, password);
+            } else {
+                await signup(email, password, displayName);
+                // Also set the initial emoji avatar
+                await updateProfileInfo(displayName, selectedEmoji);
             }
             onClose();
         } catch (err) {
-            console.error('Auth error:', err);
-            setError(err.message.includes('auth/user-not-found') ? 'User not found.' : 
-                   err.message.includes('auth/wrong-password') ? 'Wrong password.' : 
-                   err.message.includes('auth/email-already-in-use') ? 'Email already in use.' : 
-                   'Failed to authenticate. Please check your credentials.');
+            console.error(err);
+            setError(err.message.includes('auth/user-not-found') ? 'User not found' :
+                err.message.includes('auth/wrong-password') ? 'Wrong password' :
+                    err.message.includes('auth/email-already-in-use') ? 'Email already in use' :
+                        'Authentication failed. Please check your credentials.');
         } finally {
             setLoading(false);
         }
@@ -50,39 +46,32 @@ const AuthModal = ({ isOpen, onClose }) => {
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            title={isSignup ? "Create Account 🏪" : "Welcome Back Clerk! 👋"}
+            title={isLogin ? "Welcome Back to Wellhouse! 🏪" : "Join the Wellhouse Family! ✨"}
         >
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {error && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--danger)', background: '#fee2e2', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontSize: '0.9rem' }}>
-                        <AlertCircle size={18} />
-                        {error}
-                    </div>
-                )}
-
-                {isSignup && (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4" style={{ padding: '0.5rem' }}>
+                {!isLogin && (
                     <>
                         <Input
-                            label="Display Name"
-                            placeholder="Owner name"
+                            label="Your Name"
+                            placeholder="How should we call you?"
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
                             required
                         />
 
                         <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 700, color: 'var(--text-main)' }}>
+                            <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: 700, color: 'var(--text-main)' }}>
                                 Pick an Avatar
                             </label>
                             <div 
                                 style={{ 
                                     display: 'grid', 
                                     gridTemplateColumns: 'repeat(8, 1fr)', 
-                                    gap: '6px',
+                                    gap: '8px',
                                     background: 'rgba(0,0,0,0.03)',
-                                    padding: '8px',
+                                    padding: '12px',
                                     borderRadius: 'var(--radius-md)',
-                                    marginBottom: '1rem'
+                                    marginBottom: '0.5rem'
                                 }}
                             >
                                 {AVATAR_EMOJIS.map(emoji => (
@@ -102,6 +91,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                                             alignItems: 'center',
                                             justifyContent: 'center'
                                         }}
+                                        className="emoji-option"
                                     >
                                         {emoji}
                                     </button>
@@ -110,50 +100,53 @@ const AuthModal = ({ isOpen, onClose }) => {
                         </div>
                     </>
                 )}
-
                 <Input
                     label="Email Address"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-
                 <Input
                     label="Password"
                     type="password"
-                    placeholder="Min 6 characters"
+                    placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
 
-                <Button 
-                    type="submit" 
-                    variant="primary" 
-                    disabled={loading}
-                    style={{ marginTop: '0.5rem' }}
-                >
-                    {loading ? (
-                        <Loader2 className="animate-spin" size={20} />
-                    ) : (
-                        isSignup ? (
-                            <div className="flex items-center gap-2"><UserPlus size={20}/> Create Shop</div>
-                        ) : (
-                            <div className="flex items-center gap-2"><LogIn size={20}/> Log In</div>
-                        )
-                    )}
+                {error && (
+                    <div className="flex items-center gap-2 p-3 text-danger bg-danger-light" style={{ borderRadius: '12px', background: 'rgba(239, 83, 80, 0.1)', fontSize: '0.9rem' }}>
+                        <AlertCircle size={16} />
+                        <span>{error}</span>
+                    </div>
+                )}
+
+                <Button type="submit" variant="primary" style={{ width: '100%' }} disabled={loading}>
+                    {loading ? "Processing..." : isLogin ? "Open Shop" : "Register Now"}
                 </Button>
 
                 <div className="text-center" style={{ marginTop: '0.5rem' }}>
-                    <button 
-                        type="button" 
-                        onClick={() => setIsSignup(!isSignup)}
-                        style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: 700 }}
-                    >
-                        {isSignup ? "Already have a shop? Log In" : "New here? Create your shop"}
-                    </button>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                        {isLogin ? "Don't have an account?" : "Already have an account?"}
+                        <button
+                            type="button"
+                            onClick={() => setIsLogin(!isLogin)}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                color: 'var(--primary)',
+                                fontWeight: 700,
+                                marginLeft: '0.5rem',
+                                cursor: 'pointer',
+                                textDecoration: 'underline'
+                            }}
+                        >
+                            {isLogin ? "Sign Up" : "Log In"}
+                        </button>
+                    </p>
                 </div>
             </form>
         </Modal>
