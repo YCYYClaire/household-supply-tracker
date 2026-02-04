@@ -6,12 +6,14 @@ import Modal from './Modal';
 import Input from './Input';
 import Button from './Button';
 import AuthModal from './AuthModal';
+import ProfileModal from './ProfileModal';
 
 const Layout = ({ children, currentView, onNavigate }) => {
     const { settings, updateSettings } = usePersonalization();
     const { user, logout } = useAuth();
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [tempSettings, setTempSettings] = useState(settings);
 
     // Sync temp settings when modal opens
@@ -72,10 +74,35 @@ const Layout = ({ children, currentView, onNavigate }) => {
                 {/* Personalization Toggle */}
                 <div style={{ marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {user ? (
-                        <div style={{ marginBottom: '1rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <div 
+                            style={{ 
+                                marginBottom: '1rem', 
+                                background: 'rgba(255,255,255,0.05)', 
+                                padding: '1rem', 
+                                borderRadius: 'var(--radius-md)', 
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                            className="sidebar-profile-box"
+                            onClick={() => setIsProfileOpen(true)}
+                        >
                             <div className="flex items-center gap-3 mb-3">
-                                <div style={{ width: '40px', height: '40px', background: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-                                    👤
+                                <div style={{ 
+                                    width: '40px', 
+                                    height: '40px', 
+                                    background: 'var(--primary)', 
+                                    borderRadius: '50%', 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center', 
+                                    fontSize: '1.2rem',
+                                    overflow: 'hidden',
+                                    border: '2px solid #fff'
+                                }}>
+                                    {user.photoURL ? (
+                                        <img src={user.photoURL} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    ) : '👤'}
                                 </div>
                                 <div style={{ overflow: 'hidden' }}>
                                     <div style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{user.displayName || 'Owner'}</div>
@@ -172,6 +199,7 @@ const Layout = ({ children, currentView, onNavigate }) => {
             </Modal>
 
             <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+            <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
         </div>
     );
 };
